@@ -1,11 +1,12 @@
 ## Description
-kafka 011 sink.
+Data sink for kafka 0.11
 
 ## Parameters
 | Name | Description | Type | Required？ | Default Value |
 | --- | --- | --- | --- | --- |
-| bootstrapServers | kafka集群地址 | String | ✓ |  |
+| bootstrapServers | kafka bootstrap servers | String | ✓ |  |
 | topic | topic | String | ✓ |  |
+| properties | additional kafka configurations | additional kafka configurations, such as "prop1=val1,prop2=val2" | String |  |  |
 | dataFormat | data format | String | ✓ |  |
 | fieldDelimiter | Field delimiter | String |  | "," |
 

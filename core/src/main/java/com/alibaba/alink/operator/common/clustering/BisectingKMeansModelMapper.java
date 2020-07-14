@@ -52,20 +52,7 @@ public class BisectingKMeansModelMapper extends RichModelMapper {
             throw new RuntimeException(
                 "Dim of predict data not equal to vectorSize of training data: " + this.modelData.vectorSize);
         }
-        ContinuousDistance distance;
-        switch (this.modelData.distanceType) {
-            case EUCLIDEAN: {
-                distance = new EuclideanDistance();
-                break;
-            }
-            case COSINE: {
-                distance = new CosineDistance();
-                break;
-            }
-            default: {
-                throw new RuntimeException("distanceType not support:" + this.modelData.distanceType);
-            }
-        }
+        ContinuousDistance distance = this.modelData.distanceType.getFastDistance();
         Tuple2<Long, Long> clusterIdAndTreeNodeId = this.tree.predict(x, distance);
         double[] prob = computeProbability(clusterIdAndTreeNodeId.f1, tree.treeNodeIds);
         return Tuple2.of(clusterIdAndTreeNodeId.f0, new DenseVector(prob).toString());
@@ -120,11 +107,8 @@ public class BisectingKMeansModelMapper extends RichModelMapper {
     public void loadModel(List<Row> modelRows) {
         this.modelData = new BisectingKMeansModelDataConverter().load(modelRows);
 
-        this.vectorColIdx = TableUtil.findColIndex(super.getDataSchema().getFieldNames(),
+        this.vectorColIdx = TableUtil.findColIndexWithAssert(super.getDataSchema().getFieldNames(),
             this.modelData.vectorColName);
-        if (this.vectorColIdx < 0) {
-            throw new RuntimeException("Can't find feature col in predict data: " + this.modelData.vectorColName);
-        }
 
         this.tree = new Tree(modelData.summaries);
     }

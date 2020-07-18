@@ -4,3 +4,10 @@ target
 .DS_Store
 *.iml
 *dependency-reduced-pom.xml
+
+core
+docs
+shaded_libraries
+examples
+connectors
+pyalink

@@ -22,12 +22,12 @@ public class CsvBatchReader {
             .setFilePath(FileReadUtils.getResourceFilePath("iris.data"))
             .setFieldDelimiter(",")
             .setSchemaStr("sepal_length double, sepal_width double, petal_length double, petal_width double, category string");
-        csvSourceBatchOp.firstN(10).print();
+        csvSourceBatchOp.print();
 
         // 从网络读取数据
         csvSourceBatchOp = new CsvSourceBatchOp()
             .setFilePath("http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data")
             .setSchemaStr("sepal_length double, sepal_width double, petal_length double, petal_width double, category string");
-        csvSourceBatchOp.firstN(5).print();
+        csvSourceBatchOp.print();
     }
 }

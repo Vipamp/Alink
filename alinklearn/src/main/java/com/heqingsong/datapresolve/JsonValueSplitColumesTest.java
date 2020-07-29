@@ -20,7 +20,7 @@ import org.junit.Test;
 public class JsonValueSplitColumesTest {
 
     /**
-     * 该测试，用于将json 字符串，列式转换成 Table 的格式。
+     * 该测试，用于将json 字符串，列式转换成 Table 的格式，支持 json 嵌套。
      *
      * @author HeQingsong
      */
@@ -36,9 +36,9 @@ public class JsonValueSplitColumesTest {
         StreamOperator result = textSourceBatchOp.link(new JsonValueStreamOp()
             .setSkipFailed(false)
             .setSelectedCol("context")
-            .setOutputCols(new String[]{"name", "age"})
-            .setJsonPath(new String[]{"$.name", "$.age"}))
-            .select("name,age");
+            .setOutputCols(new String[]{"name", "age", "addr"})
+            .setJsonPath(new String[]{"$.name", "$.age", "$.info.addr"}))
+            .select("name,age,addr");
         result.print();
         StreamOperator.execute();
     }

@@ -19,7 +19,8 @@ import org.junit.Test;
 public class KakfaStreamReader {
 
     /**
-     * 测试 Alink 接入kafka 获取json 格式的数据，解析后答应成 Table 的形式。
+     * 测试 Alink 接入kafka 获取json 格式的数据，解析后转换成 Table 的形式，并修改
+     * 各字段的数据类型。
      * <p>
      * kakfa 数据的输入示例: {"name":"hqs","age":25}
      * 打印结果为：
@@ -36,12 +37,15 @@ public class KakfaStreamReader {
             .setTopic("test")
             .setStartupMode("LATEST")
             .setGroupId("alink_group");
-        source.link(new JsonValueStreamOp()
+        StreamOperator message = source.link(new JsonValueStreamOp()
             .setSkipFailed(false)
             .setSelectedCol("message")
             .setOutputCols(new String[]{"name", "age"})
             .setJsonPath(new String[]{"$.name", "$.age"}))
-            .select("name,age").print();
+            .select("CAST(name AS STRING) AS name,"
+                + "CAST(age AS INTEGER) AS age");
+        message.getOutputTable().printSchema();
+        message.print();
         StreamOperator.execute();
     }
 }

@@ -14,6 +14,7 @@ import com.alibaba.alink.operator.stream.StreamOperator;
 import com.alibaba.alink.operator.stream.dataproc.JsonValueStreamOp;
 import com.alibaba.alink.operator.stream.source.TextSourceStreamOp;
 import com.heqingsong.utils.FileReadUtils;
+import org.apache.flink.table.api.Table;
 import org.junit.Test;
 
 
@@ -32,13 +33,16 @@ public class JsonValueSplitColumesTest {
             .setFilePath(FileReadUtils.getResourceFilePath("json_format.txt"))
             .setTextCol("context");
 
-        // 从 json 字符串提取指定字段，转换成 table 格式。
+        // 从 json 字符串提取指定字段，转换成 Table 格式，并使用 Table API 的select 语法，转换字段类型。
         StreamOperator result = textSourceBatchOp.link(new JsonValueStreamOp()
             .setSkipFailed(false)
             .setSelectedCol("context")
             .setOutputCols(new String[]{"name", "age", "addr"})
             .setJsonPath(new String[]{"$.name", "$.age", "$.info.addr"}))
-            .select("name,age,addr");
+            .select("CAST(name AS STRING) AS name, "
+                + "CAST(age AS INTEGER) AS age,"
+                + "CAST(addr AS STRING) AS addr");
+        result.getOutputTable().printSchema();
         result.print();
         StreamOperator.execute();
     }

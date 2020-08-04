@@ -18,7 +18,6 @@ import com.alibaba.alink.operator.stream.source.Kafka011SourceStreamOp;
 import com.alibaba.alink.pipeline.Pipeline;
 import com.alibaba.alink.pipeline.classification.LogisticRegression;
 import com.heqingsong.utils.FileReadUtils;
-import org.junit.Test;
 
 public class IrisLogisticReStreamPredTest {
 
@@ -27,17 +26,17 @@ public class IrisLogisticReStreamPredTest {
     private static final String LABEL_COL = "category";
     private static final String PRED_COL = "pred_result";
 
-    private LogisticRegression lr = new LogisticRegression()
+    private static LogisticRegression lr = new LogisticRegression()
         .setLabelCol(LABEL_COL)
         .setFeatureCols(FETCHURE_COLS)
         .setPredictionCol(PRED_COL);
 
-    private CsvSourceBatchOp data = new CsvSourceBatchOp()
+    private static CsvSourceBatchOp data = new CsvSourceBatchOp()
         .setFilePath(FileReadUtils.getResourceFilePath("iris.data"))
         .setFieldDelimiter(",")
         .setSchemaStr("sepal_length double, sepal_width double, petal_length double, petal_width double, category string");
 
-    private Kafka011SourceStreamOp source = new Kafka011SourceStreamOp()
+    private static Kafka011SourceStreamOp source = new Kafka011SourceStreamOp()
         .setBootstrapServers("172.20.3.225:9092")
         .setTopic("test")
         .setStartupMode("LATEST")
@@ -51,8 +50,7 @@ public class IrisLogisticReStreamPredTest {
      *
      * @author HeQingsong
      */
-    @Test
-    public void trainAndPredict() throws Exception {
+    public static void main(String[] args) throws Exception {
         StreamOperator message = source.link(new JsonValueStreamOp()
             .setSkipFailed(true)
             .setSelectedCol("message")

@@ -9,7 +9,7 @@
  * @author HeQingsong
  * @since JDK1.8
  */
-package com.heqingsong.source;
+package com.heqingsong.sourceandsink;
 
 import com.alibaba.alink.operator.batch.source.MemSourceBatchOp;
 import com.alibaba.alink.operator.stream.StreamOperator;
@@ -18,13 +18,12 @@ import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.table.api.TableSchema;
 import org.apache.flink.types.Row;
-import org.junit.Test;
 
 import java.util.Arrays;
 
 public class MyElementSourceOp {
 
-    Row[] rows = new Row[]{
+    private static Row[] rows = new Row[]{
         Row.of(1, 5.1, 3.5, 1.4, 0.2, "setosa"),
         Row.of(2, 4.9, 3.0, 1.4, 0.2, "setosa"),
         Row.of(3, 4.7, 3.2, 1.3, 0.2, "setosa"),
@@ -32,12 +31,12 @@ public class MyElementSourceOp {
         Row.of(5, 5.0, 3.6, 1.4, 0.2, "setosa")
     };
 
-    private TableSchema schema = new TableSchema(
+    private static TableSchema schema = new TableSchema(
         new String[]{"id", "sLength", "sWidth", "pLength", "pWidth", "Species"},
         new TypeInformation<?>[]{Types.INT, Types.DOUBLE, Types.DOUBLE, Types.DOUBLE, Types.DOUBLE, Types.STRING}
     );
 
-    private String[] colNames = new String[]{"id", "sLength", "sWidth", "pLength", "pWidth", "Species"};
+    private static String[] colNames = new String[]{"id", "sLength", "sWidth", "pLength", "pWidth", "Species"};
 
     /**
      * 测试两种方式，将自己定义的数据，构造成 BatchOperator
@@ -46,8 +45,7 @@ public class MyElementSourceOp {
      *
      * @author HeQingsong
      */
-    @Test
-    public void testBatchOp() throws Exception {
+    public static void testBatchOp() throws Exception {
         new MemSourceBatchOp(Arrays.asList(rows), colNames).print();
         new MemSourceBatchOp(Arrays.asList(rows), schema).print();
     }
@@ -62,10 +60,14 @@ public class MyElementSourceOp {
      *
      * @author HeQingsong
      */
-    @Test
-    public void testStreamOp() throws Exception {
+    public static void testStreamOp() throws Exception {
         new MemSourceStreamOp(Arrays.asList(rows), colNames).print();
         new MemSourceStreamOp(Arrays.asList(rows), schema).print();
         StreamOperator.execute();
+    }
+
+    public static void main(String[] args) throws Exception {
+        testBatchOp();
+        testStreamOp();
     }
 }

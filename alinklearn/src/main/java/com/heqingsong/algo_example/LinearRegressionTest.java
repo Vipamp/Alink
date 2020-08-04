@@ -20,9 +20,6 @@ import com.alibaba.alink.pipeline.PipelineModel;
 import com.alibaba.alink.pipeline.regression.LinearRegression;
 import org.apache.flink.types.Row;
 import org.apache.flink.util.FileUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 
 import java.io.File;
 import java.util.Arrays;
@@ -54,8 +51,7 @@ public class LinearRegressionTest {
      *
      * @author HeQingsong
      */
-    @Before
-    public void train() throws Exception {
+    public static void init() throws Exception {
         Pipeline pl = new Pipeline().add(linear);
         PipelineModel pipelineModel = pl.fit(vecdata);
         pipelineModel.save(MODEL_FILENAME);
@@ -67,8 +63,7 @@ public class LinearRegressionTest {
      *
      * @author HeQingsong
      */
-    @After
-    public void clear() throws Exception {
+    public static void clear() throws Exception {
         FileUtils.deleteDirectory(new File(MODEL_PATH));
     }
 
@@ -77,12 +72,13 @@ public class LinearRegressionTest {
      *
      * @author HeQingsong
      */
-    @Test
-    public void batchPredict() throws Exception {
+    public static void batchPredict() throws Exception {
+        init();
         PipelineModel model = PipelineModel.load(MODEL_FILENAME);
         BatchOperator result = model.transform(vecdata).select(
             new String[]{"label", "linpred"});
         result.print();
+        clear();
     }
 
     /**
@@ -91,12 +87,18 @@ public class LinearRegressionTest {
      *
      * @author HeQingsong
      */
-    @Test
-    public void streamPredict() throws Exception {
+    public static void streamPredict() throws Exception {
+        init();
         PipelineModel model = PipelineModel.load(MODEL_FILENAME);
         StreamOperator result = model.transform(svecdata).select(
             new String[]{"label", "linpred"});
         result.print();
         StreamOperator.execute();
+        clear();
+    }
+
+    public static void main(String[] args) throws Exception {
+        batchPredict();
+        streamPredict();
     }
 }

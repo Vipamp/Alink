@@ -23,4 +23,8 @@ public class FileReadUtils {
     public static String getResourceFilePath(String filename) {
         return FileReadUtils.class.getClassLoader().getResource(filename).getPath();
     }
+
+    public static String getResourcePath() {
+        return FileReadUtils.class.getClassLoader().getResource("").getPath();
+    }
 }

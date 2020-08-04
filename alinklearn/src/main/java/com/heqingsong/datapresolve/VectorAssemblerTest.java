@@ -14,7 +14,6 @@ package com.heqingsong.datapresolve;
 import com.alibaba.alink.operator.batch.source.MemSourceBatchOp;
 import com.alibaba.alink.pipeline.dataproc.vector.VectorAssembler;
 import org.apache.flink.types.Row;
-import org.junit.Test;
 
 import java.util.Arrays;
 
@@ -25,21 +24,20 @@ import java.util.Arrays;
  */
 public class VectorAssemblerTest {
 
-    Row[] testArray =
+    static Row[] testArray =
         new Row[]{
             Row.of("1", "2", "3", "4"),
             Row.of("1", "2", "3", "4"),
             Row.of("1", "2", "3", "4"),
             Row.of("1", "2", "3", "4")
         };
-    String[] inputCols = new String[]{"c1", "c2", "c3", "c4"};
-    String[] fectureCols = new String[]{"c2", "c3", "c4"};
-    String outputCol = "features";
+    static String[] inputCols = new String[]{"c1", "c2", "c3", "c4"};
+    static String[] fectureCols = new String[]{"c2", "c3", "c4"};
+    static String outputCol = "features";
 
-    MemSourceBatchOp source = new MemSourceBatchOp(Arrays.asList(testArray), inputCols);
+    static MemSourceBatchOp source = new MemSourceBatchOp(Arrays.asList(testArray), inputCols);
 
-    @Test
-    public void main() throws Exception {
+    public static void main(String[] args) throws Exception {
         VectorAssembler va = new VectorAssembler()
             .setSelectedCols(fectureCols)
             .setOutputCol(outputCol);

@@ -14,8 +14,6 @@ import com.alibaba.alink.operator.stream.StreamOperator;
 import com.alibaba.alink.operator.stream.dataproc.JsonValueStreamOp;
 import com.alibaba.alink.operator.stream.source.TextSourceStreamOp;
 import com.heqingsong.utils.FileReadUtils;
-import org.apache.flink.table.api.Table;
-import org.junit.Test;
 
 
 public class JsonValueSplitColumesTest {
@@ -25,9 +23,7 @@ public class JsonValueSplitColumesTest {
      *
      * @author HeQingsong
      */
-    @Test
-    public void test() throws Exception {
-
+    public static void main(String[] args) throws Exception {
         // 读取 txt 文件，该文件中各行，存放格式相同的 json 字符串，就一个 context 固定列名
         TextSourceStreamOp textSourceBatchOp = new TextSourceStreamOp()
             .setFilePath(FileReadUtils.getResourceFilePath("json_format.txt"))

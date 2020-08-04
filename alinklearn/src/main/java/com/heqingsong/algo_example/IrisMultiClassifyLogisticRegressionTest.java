@@ -16,9 +16,10 @@ import com.alibaba.alink.operator.batch.source.CsvSourceBatchOp;
 import com.alibaba.alink.pipeline.Pipeline;
 import com.alibaba.alink.pipeline.PipelineModel;
 import com.alibaba.alink.pipeline.classification.LogisticRegression;
+import com.alibaba.alink.pipeline.classification.OneVsRest;
 import com.heqingsong.utils.FileReadUtils;
 
-public class IrisLogisticRegressionTest {
+public class IrisMultiClassifyLogisticRegressionTest {
 
     private static final String[] FETCHURE_COLS = new String[]
         {"sepal_length", "sepal_width", "petal_length", "petal_width"};
@@ -30,20 +31,18 @@ public class IrisLogisticRegressionTest {
         .setFeatureCols(FETCHURE_COLS)
         .setPredictionCol(PRED_COL);
 
+    private static OneVsRest oneVsRest = new OneVsRest()
+        .setClassifier(lr).setNumClass(3)
+        .setPredictionCol(PRED_COL);
+
     private static CsvSourceBatchOp data = new CsvSourceBatchOp()
-        .setFilePath(FileReadUtils.getResourceFilePath("iris.data"))
+        .setFilePath(FileReadUtils.getResourceFilePath("iris2.data"))
         .setFieldDelimiter(",")
         .setSchemaStr("sepal_length double, sepal_width double, petal_length double, petal_width double, category string");
 
-    /**
-     * 该种方法的 LogisticRegression 只是原生支持 二分类的方式，不支持多分类。
-     * 如果要支持多分类，需要借助于多分类器 OneVsRest.
-     * 示例详见 {@link com.heqingsong.algo_example.IrisMultiClassifyLogisticRegressionTest}
-     *
-     * @author HeQingsong
-     */
+
     public static void main(String[] args) throws Exception {
-        Pipeline pl = new Pipeline().add(lr);
+        Pipeline pl = new Pipeline().add(oneVsRest);
         PipelineModel model = pl.fit(data);
         BatchOperator transform = model.transform(data);
         transform.print();

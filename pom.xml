@@ -3,14 +3,16 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <groupId>com.alibaba.alink</groupId>
     <artifactId>alink</artifactId>
     <packaging>pom</packaging>
     <version>1.1-SNAPSHOT</version>
 
     <name>alink</name>
-    <description>Alink is the Machine Learning algorithm platform based on Flink, developed by the PAI team of Alibaba computing platform.</description>
+    <description>Alink is the Machine Learning algorithm platform based on Flink, developed by the PAI team of Alibaba
+        computing platform.
+    </description>
     <url>https://github.com/alibaba/Alink</url>
 
     <licenses>
@@ -22,9 +24,9 @@
     </licenses>
 
     <organization>
-		<name>Alibaba Group</name>
-		<url>https://github.com/alibaba</url>
-	</organization>
+        <name>Alibaba Group</name>
+        <url>https://github.com/alibaba</url>
+    </organization>
 
     <developers>
         <developer>
@@ -105,6 +107,7 @@
         <module>core</module>
         <module>connectors</module>
         <module>examples</module>
+        <module>alinklearn</module>
     </modules>
 
     <build>

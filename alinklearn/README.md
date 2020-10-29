@@ -1,22 +1,24 @@
 ## 1. 新建 alink 的maven 项目
 ### 1.1 新建 maven 项目
-### 1.2 导入 alink 的基本使用的 pom 依赖
+### 1.2 导入 alink 的基本使用的 pom 依赖，这是基础依赖，如果使用了其他功能，需要针对于功能增加依赖。
 ```xml
-    <dependency>
-        <groupId>com.alibaba.alink</groupId>
-        <artifactId>alink_core_flink-1.10_2.11</artifactId>
-        <version>1.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.flink</groupId>
-        <artifactId>flink-streaming-scala_2.11</artifactId>
-        <version>1.10.0</version>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.flink</groupId>
-        <artifactId>flink-table-planner_2.11</artifactId>
-        <version>1.10.0</version>
-    </dependency>
+    <dependencys>
+       <dependency>
+           <groupId>com.alibaba.alink</groupId>
+           <artifactId>alink_core_flink-1.11_2.11</artifactId>
+           <version>1.2-SNAPSHOT</version>
+       </dependency>
+       <dependency>
+           <groupId>org.apache.flink</groupId>
+           <artifactId>flink-streaming-scala_2.11</artifactId>
+           <version>1.11.0</version>
+       </dependency>
+       <dependency>
+           <groupId>org.apache.flink</groupId>
+           <artifactId>flink-table-planner_2.11</artifactId>
+           <version>1.11.0</version>
+       </dependency>
+    </dependencys>
 ```
 
 ## 2.在 flink 集群中部署 alink 
